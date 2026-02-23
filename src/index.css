@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=JetBrains+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 4%;
+    --foreground: 150 20% 92%;
+    --card: 222 40% 7%;
+    --card-foreground: 150 20% 92%;
+    --popover: 222 40% 7%;
+    --popover-foreground: 150 20% 92%;
+    --primary: 152 100% 50%;
+    --primary-foreground: 222 47% 4%;
+    --secondary: 222 30% 12%;
+    --secondary-foreground: 150 20% 80%;
+    --muted: 222 30% 10%;
+    --muted-foreground: 215 20% 50%;
+    --accent: 188 100% 50%;
+    --accent-foreground: 222 47% 4%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222 30% 14%;
+    --input: 222 30% 12%;
+    --ring: 152 100% 50%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h32v1H0zM0 0v32h1V0z' fill='%2300FF88' fill-opacity='0.025'/%3E%3C/svg%3E");
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Orbitron', monospace;
+  }
+  .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .text-neon-green {
+    color: #00FF88;
+  }
+  .text-neon-cyan {
+    color: #00E5FF;
+  }
+  .glow-green {
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+  }
+  .glow-cyan {
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+  }
+  .glow-red {
+    text-shadow: 0 0 20px rgba(255, 59, 59, 0.6);
+  }
+  .card-glass {
+    background: rgba(10, 15, 28, 0.85);
+    border: 1px solid rgba(0, 255, 136, 0.08);
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Leaflet dark map override */
+.leaflet-container {
+  background: #0d1117 !important;
+  border-radius: 12px;
+}
+.leaflet-tile {
+  filter: invert(95%) hue-rotate(180deg) brightness(0.7) contrast(1.1);
+}
+
+/* Recharts tooltips */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: rgba(10, 15, 28, 0.95) !important;
+  border: 1px solid rgba(0, 255, 136, 0.2) !important;
+  border-radius: 8px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 12px !important;
+}
+
+/* Radial progress animation */
+@keyframes radialFill {
+  from { stroke-dashoffset: 283; }
+  to   { stroke-dashoffset: var(--target-offset); }
+}
+.radial-animate {
+  animation: radialFill 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
