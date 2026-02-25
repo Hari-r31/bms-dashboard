@@ -1,8 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Zap, Thermometer, Battery, Activity,
-  BatteryCharging, Wind, Cpu, TrendingUp,
+  Zap, Battery, Activity, TrendingUp,
 } from 'lucide-react'
 import { useDeviceContext } from '@/App'
 import {
@@ -107,7 +106,7 @@ export default function Dashboard() {
           <div className="flex flex-wrap gap-2">
             <StatusBadge label="CHARGING" active={d.is_charging} colorOn="text-neon-green bg-neon-green/10 border-neon-green/30" />
             <StatusBadge label="DISCHARGING" active={d.is_discharging} colorOn="text-cyan-400 bg-cyan-400/10 border-cyan-400/30" />
-            <StatusBadge label="COOLING" active={d.fan_on || d.cooling_active} colorOn="text-blue-400 bg-blue-400/10 border-blue-400/30" />
+            <StatusBadge label="COOLING" active={(d.fan_on ?? false) || (d.cooling_active ?? false)} colorOn="text-blue-400 bg-blue-400/10 border-blue-400/30" />
             <StatusBadge label="MOTOR LOAD" active={d.motor_load_on ?? false} colorOn="text-amber-400 bg-amber-400/10 border-amber-400/30" />
             <StatusBadge label="FAULT" active={d.fault} colorOn="text-red-400 bg-red-500/10 border-red-500/40" />
           </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { AlertTriangle, Clock, Zap, Thermometer, Battery } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { useDeviceContext } from '@/App'
 import { useActiveFaults, useFaultSummary } from '@/hooks/useBmsData'

@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import type { TimeRange, BmsTelemetry } from '@/types/supabase'
 import {
   fetchDevices,
@@ -66,7 +66,6 @@ export function useRecentTelemetry(deviceId: string, limit = 60) {
 
 export function useRealtimeTelemetry(deviceId: string) {
   const queryClient = useQueryClient()
-  const audioRef = useRef<AudioContext | null>(null)
 
   useEffect(() => {
     if (!deviceId) return
