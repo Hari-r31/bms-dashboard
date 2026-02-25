@@ -3,50 +3,57 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig(({ mode }) => {
-  // Load env vars so we can read VITE_SUPABASE_URL at config time
   const env = loadEnv(mode, process.cwd(), '')
-  const supabaseUrl = env.VITE_SUPABASE_URL ?? ''
+  const supabaseUrl  = env.VITE_SUPABASE_URL      ?? ''
+  const supabaseKey  = env.VITE_SUPABASE_ANON_KEY ?? ''
+
+  // Headers that must reach Supabase on every proxied request.
+  // The Vite proxy runs in Node.js so these are injected server-side —
+  // they never get stripped by CORS preflight or browser security policies.
+  const supabaseHeaders = supabaseKey
+    ? {
+        'apikey':        supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+      }
+    : {}
 
   return {
     plugins: [react()],
 
     resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
-      },
+      alias: { '@': path.resolve(__dirname, './src') },
     },
 
     server: {
-      // Bind to all IPv6 interfaces (dual-stack covers IPv4 too)
-      host: '::',
+      host: '::',   // all IPv6 interfaces (dual-stack includes IPv4)
       port: 5173,
 
       proxy: supabaseUrl
         ? {
-            // ── REST API ──────────────────────────────────────────────────
-            // Browser hits /supabase/rest/... → Vite Node.js proxies to
-            // Supabase. Node resolves DNS on the server side, not in the
-            // browser, so IPv4 addresses are reachable even on IPv6-only networks.
+            // ── REST API ─────────────────────────────────────────────────
             '/supabase/rest': {
-              target: supabaseUrl,
+              target:       supabaseUrl,
               changeOrigin: true,
-              rewrite: (p) => p.replace(/^\/supabase\/rest/, '/rest'),
-              secure: true,
+              secure:       true,
+              rewrite:      (p) => p.replace(/^\/supabase\/rest/, '/rest'),
+              headers:      supabaseHeaders,   // ← inject apikey here
             },
-            // ── Auth ──────────────────────────────────────────────────────
+            // ── Auth ─────────────────────────────────────────────────────
             '/supabase/auth': {
-              target: supabaseUrl,
+              target:       supabaseUrl,
               changeOrigin: true,
-              rewrite: (p) => p.replace(/^\/supabase\/auth/, '/auth'),
-              secure: true,
+              secure:       true,
+              rewrite:      (p) => p.replace(/^\/supabase\/auth/, '/auth'),
+              headers:      supabaseHeaders,
             },
-            // ── Realtime WebSocket ─────────────────────────────────────────
+            // ── Realtime WebSocket ────────────────────────────────────────
             '/supabase/realtime': {
-              target: supabaseUrl.replace('https://', 'wss://'),
+              target:       supabaseUrl.replace('https://', 'wss://'),
               changeOrigin: true,
-              ws: true,
-              rewrite: (p) => p.replace(/^\/supabase\/realtime/, '/realtime'),
-              secure: true,
+              secure:       true,
+              ws:           true,
+              rewrite:      (p) => p.replace(/^\/supabase\/realtime/, '/realtime'),
+              headers:      supabaseHeaders,
             },
           }
         : {},
