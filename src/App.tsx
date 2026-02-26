@@ -8,6 +8,7 @@ import LiveMonitoring from '@/pages/LiveMonitoring'
 import Faults from '@/pages/Faults'
 import Analytics from '@/pages/Analytics'
 import DeviceInfo from '@/pages/DeviceInfo'
+import Advanced from '@/pages/Advanced'
 import { useDevices } from '@/hooks/useBmsData'
 
 // ─── Device Context ────────────────────────────────────────────────────────
@@ -52,6 +53,7 @@ export default function App() {
                 <Route path="/faults" element={<Faults />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/device" element={<DeviceInfo />} />
+                <Route path="/advanced" element={<Advanced />} />
               </Routes>
             </main>
           </div>

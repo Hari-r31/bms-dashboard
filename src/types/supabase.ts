@@ -124,6 +124,91 @@ export interface FaultSummary {
   avg_duration_minutes: number
 }
 
+// ─── Maintenance Tracking ─────────────────────────────────────────────────
+
+export type MaintenanceType =
+  | 'CELL_INSPECTION'
+  | 'BMS_CALIBRATION'
+  | 'COOLING_SERVICE'
+  | 'CONNECTOR_CHECK'
+  | 'FIRMWARE_UPDATE'
+  | 'FULL_SERVICE'
+  | 'OTHER'
+
+export interface MaintenanceLog {
+  id: string
+  device_id: string
+  maintenance_type: MaintenanceType
+  description: string
+  performed_by: string
+  performed_at: string
+  next_due_at: string | null
+  cost: number | null
+  notes: string | null
+  created_at: string
+}
+
+// ─── Warranty Management ───────────────────────────────────────────────────
+
+export type WarrantyCoverageType =
+  | 'FULL'
+  | 'LIMITED'
+  | 'CELL_ONLY'
+  | 'ELECTRONICS_ONLY'
+  | 'LABOR_ONLY'
+
+export interface WarrantyInfo {
+  id: string
+  device_id: string
+  warranty_provider: string
+  warranty_number: string | null
+  start_date: string
+  end_date: string
+  coverage_type: WarrantyCoverageType
+  max_claim_amount: number | null
+  contact_email: string | null
+  contact_phone: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
+// ─── Geo-Location / Theft Detection ───────────────────────────────────────
+
+export interface GeofenceZone {
+  id: string
+  device_id: string
+  name: string
+  center_lat: number
+  center_lng: number
+  radius_meters: number
+  is_active: boolean
+  created_at: string
+}
+
+export type GeoAlertType =
+  | 'GEOFENCE_EXIT'
+  | 'GEOFENCE_ENTRY'
+  | 'UNUSUAL_MOVEMENT'
+  | 'RAPID_DISPLACEMENT'
+  | 'STATIONARY_TIMEOUT'
+
+export interface GeoAlert {
+  id: string
+  device_id: string
+  alert_type: GeoAlertType
+  triggered_at: string
+  latitude: number
+  longitude: number
+  speed_kmh: number | null
+  geofence_zone_id: string | null
+  geofence_zone_name: string | null
+  is_resolved: boolean
+  resolved_at: string | null
+  notes: string | null
+  created_at: string
+}
+
 // ─── UI Helper Types ───────────────────────────────────────────────────────
 
 export type TimeRange = '1H' | '6H' | '24H' | '7D'

@@ -7,6 +7,7 @@ import {
   BarChart3,
   Cpu,
   Zap,
+  Layers,
 } from 'lucide-react'
 
 const navItems = [
@@ -15,6 +16,7 @@ const navItems = [
   { to: '/faults',     icon: AlertTriangle,   label: 'Faults' },
   { to: '/analytics',  icon: BarChart3,       label: 'Analytics' },
   { to: '/device',     icon: Cpu,             label: 'Device Info' },
+  { to: '/advanced',   icon: Layers,          label: 'Advanced' },
 ]
 
 export default function Sidebar() {
